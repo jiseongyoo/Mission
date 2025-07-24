@@ -11,7 +11,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class FactoryTest {
@@ -62,12 +62,21 @@ class FactoryTest {
         this.factory.showMenu();
     }
 
+    @DisplayName("현재 선택할 상태가 비정상적인 경우")
+    @Test
+    public void should_return_false_when_abnormal_current_step() {
+        this.factory.setCurrentStep(10);
+
+        assertFalse(this.factory.getUserInput(10));
+        assertEquals(10, this.factory.getCurrentStep());
+    }
+
     @DisplayName("자동차 종류 선택 시 0을 입력하면 그대로 자동차 종류 선택을 한다")
     @Test
     public void should_return_equals_when_select_car_type_with_0(){
         this.factory.setCurrentStep(Factory.CAR_TYPE);
 
-        this.factory.getUserInput(0);
+        assertTrue(this.factory.getUserInput(0));
 
         assertEquals(Factory.CAR_TYPE, this.factory.getCurrentStep());
     }
@@ -78,7 +87,7 @@ class FactoryTest {
     public void should_return_CarName_when_select_carType(int userInput, String carName) {
         this.factory.setCurrentStep(Factory.CAR_TYPE);
 
-        this.factory.getUserInput(userInput);
+        assertTrue(this.factory.getUserInput(userInput));
 
         assertEquals(carName, this.factory.getCar().getName());
         assertEquals(Factory.ENGINE, this.factory.getCurrentStep());
@@ -90,7 +99,7 @@ class FactoryTest {
     public void should_return_equals_when_select_car_type_with_invalid_range(int userInput){
         this.factory.setCurrentStep(Factory.CAR_TYPE);
 
-        this.factory.getUserInput(userInput);
+        assertFalse(this.factory.getUserInput(userInput));
 
         assertEquals(Factory.CAR_TYPE, this.factory.getCurrentStep());
     }
@@ -100,7 +109,7 @@ class FactoryTest {
     public void should_return_equals_when_select_engine_type_with_0(){
         this.factory.setCurrentStep(Factory.ENGINE);
 
-        this.factory.getUserInput(0);
+        assertTrue(this.factory.getUserInput(0));
 
         assertEquals(Factory.CAR_TYPE, this.factory.getCurrentStep());
     }
@@ -111,7 +120,7 @@ class FactoryTest {
     public void should_return_EngineName_when_select_engine(int userInput, String engineName) {
         this.factory.setCurrentStep(Factory.ENGINE);
 
-        this.factory.getUserInput(userInput);
+        assertTrue(this.factory.getUserInput(userInput));
 
         assertEquals(engineName, this.factory.getCar().getEngine().getName());
         assertEquals(Factory.BRAKE_SYSTEM, this.factory.getCurrentStep());
@@ -123,7 +132,7 @@ class FactoryTest {
     public void should_return_equals_when_select_engine_type_with_invalid_range(int userInput){
         this.factory.setCurrentStep(Factory.ENGINE);
 
-        this.factory.getUserInput(userInput);
+        assertFalse(this.factory.getUserInput(userInput));
 
         assertEquals(Factory.ENGINE, this.factory.getCurrentStep());
     }
@@ -133,7 +142,7 @@ class FactoryTest {
     public void should_return_equals_when_select_brake_system_with_0(){
         this.factory.setCurrentStep(Factory.BRAKE_SYSTEM);
 
-        this.factory.getUserInput(0);
+        assertTrue(this.factory.getUserInput(0));
 
         assertEquals(Factory.ENGINE, this.factory.getCurrentStep());
     }
@@ -144,7 +153,7 @@ class FactoryTest {
     public void should_return_BrakeName_when_select_BrakeSystem(int userInput, String brakeType) {
         this.factory.setCurrentStep(Factory.BRAKE_SYSTEM);
 
-        this.factory.getUserInput(userInput);
+        assertTrue(this.factory.getUserInput(userInput));
 
         assertEquals(brakeType, this.factory.getCar().getBrake().getName());
         assertEquals(Factory.STEER_SYSTEM, this.factory.getCurrentStep());
@@ -156,7 +165,7 @@ class FactoryTest {
     public void should_return_equals_when_select_brake_system_with_invalid_range(int userInput){
         this.factory.setCurrentStep(Factory.BRAKE_SYSTEM);
 
-        this.factory.getUserInput(userInput);
+        assertFalse(this.factory.getUserInput(userInput));
 
         assertEquals(Factory.BRAKE_SYSTEM, this.factory.getCurrentStep());
     }
@@ -167,7 +176,7 @@ class FactoryTest {
     public void should_return_equals_when_select_steer_system_with_0(){
         this.factory.setCurrentStep(Factory.STEER_SYSTEM);
 
-        this.factory.getUserInput(0);
+        assertTrue(this.factory.getUserInput(0));
 
         assertEquals(Factory.BRAKE_SYSTEM, this.factory.getCurrentStep());
     }
@@ -178,7 +187,7 @@ class FactoryTest {
     public void should_return_BrakeName_when_select_steerSystem(int userInput, String steerType) {
         this.factory.setCurrentStep(Factory.STEER_SYSTEM);
 
-        this.factory.getUserInput(userInput);
+        assertTrue(this.factory.getUserInput(userInput));
 
         assertEquals(steerType, this.factory.getCar().getSteer().getName());
         assertEquals(Factory.RUN_TEST, this.factory.getCurrentStep());
@@ -190,7 +199,7 @@ class FactoryTest {
     public void should_return_equals_when_select_steer_system_with_invalid_range(int userInput){
         this.factory.setCurrentStep(Factory.STEER_SYSTEM);
 
-        this.factory.getUserInput(userInput);
+        assertFalse(this.factory.getUserInput(userInput));
 
         assertEquals(Factory.STEER_SYSTEM, this.factory.getCurrentStep());
     }
@@ -200,7 +209,7 @@ class FactoryTest {
     public void should_return_equals_when_select_run_test_with_0(){
         this.factory.setCurrentStep(Factory.RUN_TEST);
 
-        this.factory.getUserInput(0);
+        assertTrue(this.factory.getUserInput(0));
 
         assertEquals(Factory.CAR_TYPE, this.factory.getCurrentStep());
     }
@@ -215,7 +224,7 @@ class FactoryTest {
         this.factory.setCar(spyCar);
         this.factory.setCurrentStep(Factory.RUN_TEST);
 
-        this.factory.getUserInput(1);
+        assertTrue(this.factory.getUserInput(1));
 
         verify(spyCar, times(1)).run();
         verify(spyCar, never()).test();
@@ -232,7 +241,7 @@ class FactoryTest {
         this.factory.setCar(spyCar);
         this.factory.setCurrentStep(Factory.RUN_TEST);
 
-        this.factory.getUserInput(2);
+        assertTrue(this.factory.getUserInput(2));
 
         verify(spyCar, never()).run();
         verify(spyCar, times(1)).test();
@@ -250,7 +259,7 @@ class FactoryTest {
         this.factory.setCar(spyCar);
         this.factory.setCurrentStep(Factory.RUN_TEST);
 
-        this.factory.getUserInput(userInput);
+        assertFalse(this.factory.getUserInput(userInput));
 
         verify(spyCar, never()).run();
         verify(spyCar, never()).test();

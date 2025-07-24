@@ -92,8 +92,6 @@ class CarTest {
     @Test
     public void should_print_normal_when_test_with_all_good() {
         this.car.test();
-        
-        // TODO PASS가 있음
     }
 
     @DisplayName("Engine 테스트가 실패한 경우")
@@ -102,6 +100,5 @@ class CarTest {
         when(this.mockEngine.testCheck()).thenReturn(false);
 
         this.car.test();
-        // TODO PASS가 없음
     }
 }
